@@ -13,7 +13,8 @@ class BlackjackGame:
             "player_hand": self.player.hand,
             "player_score": self.player.score,
             "dealer_hand": self.dealer.show_hand(),
-            "dealer_visible_score": self.dealer.score
+            "dealer_visible_score": self.dealer.score,
+            "dealer_score": None
         }
     
     def player_hit(self):
@@ -26,7 +27,8 @@ class BlackjackGame:
             "player_hand": self.player.hand,
             "player_score": self.player.score,
             "dealer_hand": self.dealer.show_hand(),
-            "dealer_visible_score": self.dealer.score
+            "dealer_visible_score": self.dealer.score,
+            "dealer_score": None
         }
     
     def player_stand(self):
@@ -134,12 +136,13 @@ class CardDisplay:
         
         dealer_cards = [card if card != "HIDDEN" else "1-s" for card in dealer_hand]
         CardDisplay.print_cards(dealer_cards, hidden)
-        
-        if not show_all and "HIDDEN" in dealer_hand:
+
+        if game_state.get("dealer_score") is None:
             print(f"Dealer's visible score: {game_state['dealer_visible_score']}")
         else:
             print(f"Dealer's score: {game_state['dealer_score']}")
-        
+
+
         print("\nYOUR HAND:")
         CardDisplay.print_cards(game_state['player_hand'])
         print(f"Your score: {game_state['player_score']}")

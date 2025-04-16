@@ -48,36 +48,67 @@ class Dealer:
             aces -= 1
     
     def reveal_hand(self):
-        for card_info in self.hand:
-            card_info["hidden"] = False
         self.is_showing = True
-        self.calculate_score()
-        return self.score
+        temp_score = 0
+        aces = 0
+        
+        for card_info in self.hand:
+            card = card_info["card"]
+            value = int(card.split('-')[0])
+            
+            if value == 1:
+                aces += 1
+                temp_score += 11
+            elif value > 10:
+                temp_score += 10
+            else:
+                temp_score += value
+        
+        while temp_score > 21 and aces > 0:
+            temp_score -= 10
+            aces -= 1
+        
+        return temp_score
     
     def play_hand(self):
-        self.reveal_hand()
+        self.is_showing = True
+        self.calculate_score()
         
         while self.score < 17:
             self.add_card(self.deck.deal())
-        
+
         return self.score
     
     def check_blackjack(self):
-        self.reveal_hand()
-        
-        return self.score == 21 and len(self.hand) == 2
+        temp_score = 0
+        aces = 0
+
+        for card_info in self.hand:
+            card = card_info["card"]
+            value = int(card.split('-')[0])
+
+            if value == 1:
+                aces += 1
+                temp_score += 11
+            elif value > 10:
+                temp_score += 10
+            else:
+                temp_score += value
+
+        while temp_score > 21 and aces > 0:
+            temp_score -= 10
+            aces -= 1
+
+        return temp_score == 21 and len(self.hand) == 2
     
     def show_hand(self, reveal_all=False):
-        if reveal_all:
-            self.reveal_hand()
-            
         cards = []
         for card_info in self.hand:
-            if card_info["hidden"]:
+            if card_info["hidden"] and not reveal_all and not self.is_showing:
                 cards.append("HIDDEN")
             else:
                 cards.append(card_info["card"])
-                
+                    
         return cards
 
 class Player:

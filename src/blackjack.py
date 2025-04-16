@@ -88,7 +88,6 @@ class CardDisplay:
             "h": "♥", "d": "♦", "c": "♣", "s": "♠"
         }
         
-        width = 7
         height = 5
         
         card_rows = [[] for _ in range(height)]

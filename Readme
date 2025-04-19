@@ -1,1 +1,30 @@
 Documentation File:
+List of Files: 
+deck.py, dealer.py,game.py, blackjack.py, bot.py, model.py, run_bot_game.py, train_bot.py, evaluate_bot.py, trained_blackjack_bot.pth
+First, trained_blackjack_bot.py should not be updated, it is the first model structure instance, we should be making more .pth files with detailed names with new model structures to test different ideas
+
+model.py: a generic pytorch model that chooses q values to play off of, could be changed in its activation function, nodes, hidden layers
+
+bot.py: implements the model and makes decisions off of it, not runnable
+
+run_bot_game: runs the bot using the information from model
+
+train_bot.py, implements a training loop with 50,000 epochs, Adam optimizer, 0.99 gamma, 0.001 learning rate, all these could be changed and some, please make sure all instances of data path are changed though. I will list where to change them later
+
+evaluate_bot.py, runs the bot on the model post-training, shows results of win percentage, loss percentage, push percentage. This allows User to evaluate its performance.
+
+When changing model structure, please first change the saving data in train_bot.py, as well as in run_bot_game.py:
+You need to make your own file with a descriptive name for this, the places should look like this:
+At the bottom of train_bot.py:
+torch.save(model.state_dict(), "trained_blackjack_bot.pth") 
+
+At the top of run_bot_game:
+bot = BlackjackBot("trained_blackjack_bot.pth")
+
+Obviously, change the file name to your new file. 
+
+Additionally, when you would like to evaluate, change the name of the file accessed in evaluate_bot.py in a similar fashion to in run_bot_game:
+bot = BlackjackBot("trained_blackjack_bot.pth")
+
+All I ask, is that you don't overwrite the trained_blackjack_bot.pth file, Otherwise, I can manage
+

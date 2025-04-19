@@ -3,7 +3,7 @@ from bot import BlackjackBot
 #Runnable file that calls the model on a bot instance
 # Simply defines bot, starts game, shows results, and prints for usability
 def run_bot_game():
-    bot = BlackjackBot()  # For Training Loop? - BlackjackBot("model.pth")
+    bot = BlackjackBot("trained_blackjack_bot.pth")  # imports training data
     while True:
         print("\n Starting a new game...\n")
         game_result = bot.play_game(BlackjackGame)

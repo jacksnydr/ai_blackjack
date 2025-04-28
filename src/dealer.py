@@ -24,6 +24,28 @@ class Dealer:
         if not is_hidden:
             self.calculate_score()
 
+    def get_full_score(self):
+        temp_score = 0
+        aces = 0
+
+        for card_info in self.hand:
+            card = card_info["card"]
+            value = int(card.split('-')[0])
+
+            if value == 1:
+                aces += 1
+                temp_score += 11
+            elif value > 10:
+                temp_score += 10
+            else:
+                temp_score += value
+
+        while temp_score > 21 and aces > 0:
+            temp_score -= 10
+            aces -= 1
+
+        return temp_score
+
     def calculate_score(self):
         self.score = 0
         aces = 0
@@ -72,10 +94,14 @@ class Dealer:
     
     def play_hand(self):
         self.is_showing = True
-        self.calculate_score()
-        
-        while self.score < 17:
+
+        while self.get_full_score() < 17:
             self.add_card(self.deck.deal())
+
+        for card_info in self.hand:
+            card_info["hidden"] = False
+
+        self.calculate_score()
 
         return self.score
     

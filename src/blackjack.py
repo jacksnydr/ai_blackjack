@@ -14,7 +14,7 @@ class BlackjackGame:
             "player_score": self.player.score,
             "dealer_hand": self.dealer.show_hand(),
             "dealer_visible_score": self.dealer.score,
-            "dealer_score": None
+            "dealer_score": self.dealer.score
         }
     
     def player_hit(self):

@@ -14,6 +14,7 @@ class BeatTheBotGame:
     def start_game(self):
         self.player_done = False
         self.bot_done = False
+        self.game = BlackjackGame()
         self.state = self.game.start_game()
 
         self.bot_player.hand = []
@@ -83,6 +84,8 @@ class BeatTheBotGame:
 
 
     def dealer_finish(self):
+        for card_info in self.game.dealer.hand:
+            card_info["hidden"] = False
         self.dealer_play_full(self.bot_player.score)
         self.state = self.game.determine_winner()
         return self.state

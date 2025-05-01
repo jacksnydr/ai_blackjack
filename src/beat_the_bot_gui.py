@@ -4,7 +4,7 @@ from beat_the_bot_backend import BeatTheBotGame
 dpg.create_context()
 
 game_active = False
-beat_game = BeatTheBotGame("src/trained_blackjack_bot.pth")
+beat_game = BeatTheBotGame("ai_blackjack/src/trained_blackjack_bot.pth")
 player_wins = 0
 bot_wins = 0
 
@@ -104,7 +104,13 @@ def start_game_callback():
     dpg.configure_item("victory_banner", show=False)
     state = beat_game.start_game()
 
-    draw_hand("dealer_hand_group", state["dealer_hand"])
+    dealer_hand_to_show = []
+    if len(state["dealer_hand"]) >= 2:
+        dealer_hand_to_show = [state["dealer_hand"][0], "HIDDEN"]
+    else:
+        dealer_hand_to_show = state["dealer_hand"]
+
+    draw_hand("dealer_hand_group", dealer_hand_to_show)
     draw_hand("player_hand_group", state["player_hand"])
     draw_hand("bot_hand_group", ["TBD"])
 

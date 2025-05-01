@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def evaluate(num_games=1000):
-    bot = BlackjackBot("src/trained_blackjack_bot.pth")
+    bot = BlackjackBot("ai_blackjack/src/trained_blackjack_bot.pth")
     win, lose, push = 0, 0, 0
     
     # Lists to track running performance

@@ -1,12 +1,14 @@
 from deck import Deck
 from dealer import Dealer, Player
 
+# General Game logic class
 class BlackjackGame:
     def __init__(self):
         self.deck = Deck()
         self.dealer = Dealer(self.deck)
         self.player = Player()
         
+    # Starts a new game, returns a game state, which is 5 key value pairs
     def start_game(self):
         self.dealer.deal_initial_cards(self.player)
         return {
@@ -17,6 +19,7 @@ class BlackjackGame:
             "dealer_score": self.dealer.score
         }
     
+    # Player hit action
     def player_hit(self):
         self.player.add_card(self.deck.deal())
         
@@ -31,10 +34,12 @@ class BlackjackGame:
             "dealer_score": None
         }
     
+    # Player stand action
     def player_stand(self):
         self.dealer.play_hand()
         return self.determine_winner()
     
+    # Determine winner
     def determine_winner(self):
         if self.player.score > 21:
             winner = "dealer"
@@ -49,6 +54,7 @@ class BlackjackGame:
             
         return self.end_round(winner)
     
+    # Return the final game state
     def end_round(self, winner):
         return {
             "player_hand": self.player.hand,
@@ -58,6 +64,7 @@ class BlackjackGame:
             "winner": winner
         }
     
+    # Determine if either player or dealer has blackjack
     def check_blackjack(self):
         player_blackjack = self.player.check_blackjack()
         dealer_blackjack = self.dealer.check_blackjack()

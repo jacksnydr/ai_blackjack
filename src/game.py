@@ -1,5 +1,7 @@
 from blackjack import BlackjackGame, CardDisplay
 
+
+# Basic game loop for manual play
 total_chips = 10
 while True:
     check_exit = input("Continue? (exit)")

@@ -71,6 +71,8 @@ class BlackjackGame:
         
         return None
     
+
+# A few utility functions used for getting a displayable demo in the command line
 class CardDisplay:
     
     @staticmethod

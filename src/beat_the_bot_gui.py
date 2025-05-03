@@ -1,3 +1,4 @@
+# Frontend file for demo
 import dearpygui.dearpygui as dpg
 from beat_the_bot_backend import BeatTheBotGame
 
@@ -30,7 +31,7 @@ def finish_round(state, bot_score, player_score):
         elif player_score < dealer_score:
             return "Lose."
         else:
-            return "Push (Tie)."
+            return "Push."
 
     player_outcome = outcome(player_score, dealer_score)
     bot_outcome = outcome(bot_score, dealer_score)

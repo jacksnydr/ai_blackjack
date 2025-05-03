@@ -2,6 +2,8 @@ from blackjack import BlackjackGame
 from bot import BlackjackBot
 from dealer import Player
 
+# Backend for the demo
+
 class BeatTheBotGame:
     def __init__(self, bot_model_path):
         self.bot = BlackjackBot(bot_model_path)

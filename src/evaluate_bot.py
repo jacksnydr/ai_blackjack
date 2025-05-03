@@ -1,7 +1,6 @@
 from blackjack import BlackjackGame
 from bot import BlackjackBot
 import matplotlib.pyplot as plt
-import numpy as np
 
 def evaluate(num_games=1000):
     bot = BlackjackBot("ai_blackjack/src/trained_blackjack_bot.pth")

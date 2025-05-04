@@ -1,30 +1,32 @@
 Documentation File:
-List of Files: 
+List of Important Files: 
 deck.py, dealer.py,game.py, blackjack.py, bot.py, model.py, run_bot_game.py, train_bot.py, evaluate_bot.py, trained_blackjack_bot.pth
-First, trained_blackjack_bot.py should not be updated, it is the first model structure instance, we should be making more .pth files with detailed names with new model structures to test different ideas
 
-model.py: a generic pytorch model that chooses q values to play off of, could be changed in its activation function, nodes, hidden layers
+Dependencies:
+PyTorch
+matplotlib.pyplot
+Everything else is included in repo
+There are additional dependencies required for the beat_the_bot files, but these aren't integral to our project, and were more of an extracurricular exercise.
+Instructions:
+To get the project up and running, first download the two listed dependencies, these will allow for training and evaluation.
+Next, run the train_bot.py file to build a model for use. This will create a .pth file with your trained data. 
+Then, run the evaluate_bot.py file to see the win percentage of your model over 1000 games. From here, you can run run_bot_game.py to see the bot play hand-by-hand, or you can run game.py to play yourself.
+
+Comments are included in all files
+
+Important project files:
+model.py: a pytorch model that chooses q values to play off of
 
 bot.py: implements the model and makes decisions off of it, not runnable
 
 run_bot_game: runs the bot using the information from model
 
-train_bot.py, implements a training loop with 50,000 epochs, Adam optimizer, 0.99 gamma, 0.001 learning rate, all these could be changed and some, please make sure all instances of data path are changed though. I will list where to change them later
+train_bot.py, implements a training loop with 50,000 epochs, Adam optimizer, 0.99 gamma, 0.001 learning rate
 
 evaluate_bot.py, runs the bot on the model post-training, shows results of win percentage, loss percentage, push percentage. This allows User to evaluate its performance.
 
-When changing model structure, please first change the saving data in train_bot.py, as well as in run_bot_game.py:
-You need to make your own file with a descriptive name for this, the places should look like this:
-At the bottom of train_bot.py:
-torch.save(model.state_dict(), "trained_blackjack_bot.pth") 
-
-At the top of run_bot_game:
-bot = BlackjackBot("trained_blackjack_bot.pth")
-
-Obviously, change the file name to your new file. 
-
-Additionally, when you would like to evaluate, change the name of the file accessed in evaluate_bot.py in a similar fashion to in run_bot_game:
-bot = BlackjackBot("trained_blackjack_bot.pth")
-
-All I ask, is that you don't overwrite the trained_blackjack_bot.pth file, Otherwise, I can manage
-
+Important Game files:
+deck.py
+dealer.py
+blackjack.py
+game.py

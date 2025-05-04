@@ -1,5 +1,4 @@
-# train_bot.py
-
+import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -11,8 +10,8 @@ from blackjack import BlackjackGame
 # but not more than immediate - i.e., dealer's second card
 #learning rate can be changed, I have always done around 0.001 though
 # epochs, number of games played in training
-gamma = 0.99
-learning_rate = 1e-3
+gamma = 0.5
+learning_rate = 1e-4
 epochs = 50000
 
 # import our model
@@ -47,6 +46,11 @@ def get_reward(winner, player_score):
 def train():
     #similar to .eval in bot.py, allows the model to change its weights/biases
     model.train()
+    #keep track of loss steps every 1000 epochs for plotting
+    losses = []
+    epoch_steps = []
+    batch_loss_sum = 0.0
+    batch_loss_count = 0
     #for keeping track of training.
     win, loss, push = 0, 0, 0
     total_hits = 0
@@ -61,7 +65,7 @@ def train():
 
         transitions = []
 
-        # starts with a value of 1, lowers later on to take less risky options. I.E. less strict play early in the loop
+        # starts with higher value, lowers later on to take less risky options. I.E. less strict play early in the loop
         epsilon = max(0.2, 1.0 - epoch / 10000)
 
         while True:
@@ -124,6 +128,8 @@ def train():
             # Computes mean squared error in reference to the target value and our in-game ones.
             # updates q value of chosen action
             loss = loss_fn(q_values[action_idx], torch.tensor(target_q))
+            batch_loss_sum += loss.item()
+            batch_loss_count += 1
             #back propogates and updates weights
             optimizer.zero_grad()
             loss.backward()
@@ -136,11 +142,24 @@ def train():
                   f"Loss: {loss} ({loss/total:.1%}), Push: {push} ({push/total:.1%}) | "
                   f"Hit/Stand: {total_hits}/{total_stands} | Epsilon: {epsilon:.2f}")
             # resets the user values for next 1000 epochs
+            if batch_loss_count > 0:
+                avg_loss = batch_loss_sum / batch_loss_count
+                losses.append(avg_loss)
+                epoch_steps.append(epoch)
+                batch_loss_sum = 0.0
+                batch_loss_count = 0
             win = loss = push = total_hits = total_stands = 0
     #Saves model in specified file to be used later
     #When changing neural network, please use a different file - I like this model currently
-    torch.save(model.state_dict(), "trained_blackjack_bot.pth")
+    torch.save(model.state_dict(), "learning_rate_lower_trained_blackjack_bot.pth")
     print("Training Loop complete. Model saved to 'trained_blackjack_bot.pth'")
+    plt.figure(figsize=(10, 6))
+    plt.plot(epoch_steps, losses, marker='o')
+    plt.title("Average Loss by 1000 Epochs")
+    plt.xlabel("Epoch")
+    plt.ylabel("Average Loss")
+    plt.grid(True)
+    plt.show()
 
 if __name__ == "__main__":
     train()
